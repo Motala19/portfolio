@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Godfrey Mogale | Full Stack Developer</title>
+  <meta name="description" content="Portfolio of Godfrey Mogale - Full Stack Developer specializing in PHP, Laravel, and school management systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a25;
+      --border: #2a2a3a;
+      --text: #e4e4e7;
+      --text-muted: #a1a1aa;
+      --accent: #22d3ee;
+      --accent-dim: #0891b2;
+      --accent-glow: rgba(34, 211, 238, 0.15);
+      --green: #34d399;
+      --purple: #a78bfa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background gradient effects */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: -10%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%;
+      right: -10%;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .highlight {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+    }
+
+    .btn-primary:hover {
+      background: #67e8f9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 211, 238, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* Section common */
+    section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-photo .placeholder {
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.4;
+    }
+
+    .about-photo .photo-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.7);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: left;
+    }
+
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .skill-tag {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      gap: 32px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: rgba(34, 211, 238, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(135deg, #1a1a25 0%, #0f0f18 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image .placeholder-content {
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .project-image .placeholder-content svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+
+    .project-image .placeholder-content span {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    /* Multi-image gallery for systems with 3-4 screenshots */
+    .project-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-item {
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, #1a1a25 0%, #0f0f18 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-item .placeholder-content {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 8px;
+    }
+
+    .gallery-item .placeholder-content svg {
+      width: 28px;
+      height: 28px;
+      margin-bottom: 6px;
+      opacity: 0.4;
+    }
+
+    .gallery-item .placeholder-content span {
+      display: block;
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 600px) {
+      .project-gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+
+    .project-body {
+      padding: 28px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .project-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(34, 211, 238, 0.1);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .project-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      margin-bottom: 20px;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-links .btn {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    /* Contact */
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .contact-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-card p {
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-photo {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+
+      .contact-card {
+        padding: 32px 24px;
+      }
+    }
+
+    /* Mobile menu */
+    .nav-links.active {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="#home" class="logo">Godfrey<span>.</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Available for opportunities</div>
+        <h1>Hi, I'm <span class="highlight">Godfrey Mogale</span></h1>
+        <p class="hero-subtitle">Full Stack Developer</p>
+        <p class="hero-desc">
+          I build practical web applications with PHP & Laravel — from school websites to internal systems that solve real problems.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View My Work →</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">// about</span>
+        <h2 class="section-title">About Me</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-photo">
+          <img src="images/godfrey.jpg" alt="Godfrey Mogale" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+
+        <div class="about-text">
+          <p>
+            I'm a Full Stack Developer based in <strong>Midrand, Johannesburg</strong>, focused on building reliable web applications that make everyday processes smoother.
+          </p>
+          <p>
+            I've developed complete systems for schools — including a school website, a requisition management system in plain PHP, and a Parent-Teacher Communication platform built with Laravel. I enjoy turning real-world needs into clean, working software.
+          </p>
+          <p>
+            I'm comfortable working across the stack: from database design and backend logic to responsive frontends. Always learning and open to new challenges.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-number">3+</span>
+              <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">PHP</span>
+              <span class="stat-label">& Laravel Focus</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">Full</span>
+              <span class="stat-label">Stack</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">// skills</span>
+        <h2 class="section-title">Technologies I Work With</h2>
+      </div>
+      <div class="skills-grid">
+        <span class="skill-tag">PHP</span>
+        <span class="skill-tag">Laravel</span>
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">Bootstrap</span>
+        <span class="skill-tag">REST API</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Responsive Design</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">// projects</span>
+        <h2 class="section-title">Featured Projects</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <article class="project-card">
+          <div class="project-image">
+            <img src="images/midrand-primary.png" alt="Midrand Primary School Website" style="width:100%;height:100%;object-fit:cover;" />
+
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="project-tag">HTML</span>
+              <span class="project-tag">CSS</span>
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">Bootstrap</span>
+            </div>
+            <h3 class="project-title">Midrand Primary School Website</h3>
+            <p class="project-desc">
+              A clean and informative school website designed to present school information, news, events, and contact details to parents and the community. Focused on clear navigation and mobile-friendly design.
+            </p>
+            <div class="project-links">
+              <a href="https://midrandprimary.co.za" class="btn btn-primary" target="_blank">Live Demo</a>
+              <a href="https://github.com/Motala19" class="btn btn-outline" target="_blank">View Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 - Requisition System (4 image slots) -->
+        <article class="project-card">
+          <div class="project-gallery">
+            <div class="gallery-item">
+              <img src="images/requisition-1.png" alt="Requisition System - Login" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/requisition-2.png" alt="Requisition System - Admin Dashboard" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/requisition-3.png" alt="Requisition System - Finance Dashboard" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/requisition-4.png" alt="Requisition System - Create Form" />
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="project-tag">PHP</span>
+              <span class="project-tag">MySQL</span>
+              <span class="project-tag">HTML</span>
+              <span class="project-tag">CSS</span>
+              <span class="project-tag">JavaScript</span>
+            </div>
+            <h3 class="project-title">Requisition Management System</h3>
+            <p class="project-desc">
+              A custom internal system built with plain PHP that allows staff to create, track, and manage requisitions. Includes user roles, status workflow, and database-driven records for better accountability.
+            </p>
+            <div class="project-links">
+              <a href="https://youtu.be/-Z1niGBa9vE" class="btn btn-primary" target="_blank">Live Demo</a>
+              <a href="https://github.com/Motala19/landed.git" class="btn btn-outline" target="_blank">View Code</a>
+            </div>
+          </div>
+        </article>
+
+
+        <!-- Project 3 - Parent-Teacher Communication System (4 image slots) -->
+        <article class="project-card">
+          <div class="project-gallery">
+            <div class="gallery-item">
+              <img src="images/parent-teacher-1.png" alt="Parent-Teacher App - Login" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/parent-teacher-2.png" alt="Parent-Teacher App - Dashboard" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/parent-teacher-3.png" alt="Parent-Teacher App - Teachers" />
+            </div>
+            <div class="gallery-item">
+              <img src="images/parent-teacher-4.png" alt="Parent-Teacher App - Messages" />
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-tags">
+              <span class="project-tag">Laravel</span>
+              <span class="project-tag">PHP</span>
+              <span class="project-tag">MySQL</span>
+              <span class="project-tag">REST API</span>
+              <span class="project-tag">Bootstrap</span>
+            </div>
+            <h3 class="project-title">Parent-Teacher Communication System</h3>
+            <p class="project-desc">
+              A Laravel-based platform that improves communication between parents, teachers, and school administrators. Features role-based dashboards, messaging, and school management tools for a smoother school experience.
+            </p>
+            <div class="project-links">
+              <a href="https://youtu.be/doF0s3vtwO8" class="btn btn-primary" target="_blank">Live Demo</a>
+              <a href="https://github.com/Motala19/parent-teacher-app.git" class="btn btn-outline" target="_blank">View Code</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header" style="text-align:center;">
+        <span class="section-tag">// contact</span>
+        <h2 class="section-title">Let's Work Together</h2>
+      </div>
+      <div class="contact-card">
+        <h3>Get in touch</h3>
+        <p>I'm open to new opportunities, freelance projects, or just a chat about web development.</p>
+        <div class="contact-links">
+          <a href="mailto:tshepisogodfrey@gmail.com" class="contact-link">
+            ✉️ Email
+          </a>
+          <a href="https://www.linkedin.com/in/motala-godfrey-mogale-b4ba165a" target="_blank" class="contact-link">
+            💼 LinkedIn
+          </a>
+          <a href="https://github.com/Motala19" target="_blank" class="contact-link">
+            🐙 GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Godfrey Mogale · Built with care in Midrand, Johannesburg</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Smooth highlight of active nav (optional enhancement)
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
